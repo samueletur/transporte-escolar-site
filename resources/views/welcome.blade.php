@@ -482,7 +482,7 @@
                 <div class="section-header">
                     <h2 class="section-title">Planos que se adaptam ao seu tamanho</h2>
                     <p class="section-description">
-                        Comece com teste grátis de 30 dias. Sem compromisso, sem cartão de crédito.
+                        Comece com teste grátis de 7 dias. Sem compromisso, sem cartão de crédito.
                     </p>
                 </div>
 
@@ -574,7 +574,7 @@
                         
                         <div style="padding-top: 2rem;">
                             <button class="btn btn-hero btn-lg" style="width: 100%; margin-bottom: 1.5rem;">
-                                Teste Grátis por 30 dias
+                                Teste Grátis por 7 dias
                             </button>
                             
                             <ul style="list-style: none; padding: 0; text-align: left;">
