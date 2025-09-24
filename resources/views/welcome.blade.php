@@ -18,6 +18,8 @@
         <meta name="description" content="Sistema completo para gestão, monitoramento e segurança do transporte escolar. Tranquilidade para pais, eficiência para escolas e segurança para todos.">
         <meta name="keywords" content="transporte escolar, van escolar, rastreamento GPS, app pais, segurança escolar">
 
+        <x-analytics title="Van Confiável - Página Inicial" />
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
             
     </head>
