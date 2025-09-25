@@ -36,6 +36,10 @@ class ContatoController extends Controller
 
         try {
 
+            Telegram::send('Cadastro Site Van Confiavel', [
+                'message' => $request->except('_token')
+            ]);       
+
             Mail::send('emails.contato', $request->all(), function ($message) use ($request) {
                 $message->to('contato@vanconfiavel.com.br')
                         ->subject('Novo contato - Van Confiável')
