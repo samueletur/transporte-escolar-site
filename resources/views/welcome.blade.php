@@ -34,8 +34,8 @@
                     <nav class="nav">
                         <a href="#funcionalidades">Funcionalidades</a>
                         <a href="#beneficios">Benefícios</a>
-                        <a href="#depoimentos">Depoimentos</a>
-                        <a href="#precos">Preços</a>
+                        {{-- <a href="#depoimentos">Depoimentos</a> --}}
+                        {{-- <a href="#precos">Preços</a> --}}
                     </nav>
 
                     <div class="nav-buttons">
@@ -373,7 +373,7 @@
                         </div>
 
                         <button class="btn btn-hero btn-lg">
-                            Agendar Demonstração Gratuita
+                            Teste Grátis
                         </button>
                     </div>
 
@@ -477,6 +477,7 @@
         @endif
 
         <!-- Pricing Section -->
+        @if(false)
         <section id="precos" class="benefits">
             <div class="container">
                 <div class="section-header">
@@ -683,6 +684,7 @@
                 </div>
             </div>
         </section>
+        @endif
 
         <!-- Footer -->
         <footer class="footer">
@@ -766,5 +768,218 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Modal de Contato -->
+        <div id="contatoModal" class="modal" style="display: none;">
+            <div class="modal-overlay" onclick="fecharModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Fale Conosco - Teste Grátis</h2>
+                    <button type="button" class="modal-close" onclick="fecharModal()">&times;</button>
+                </div>
+                
+                <form id="contatoForm" class="modal-body">
+                    @csrf
+                    <h3><strong>Estamos quase prontos! 🚀</strong></h3>
+                    <p class="text-gray-600 mb-4 mt-2 bg-gray-50 p-3 rounded-lg">Nossa ferramenta está em fase final de testes com clientes selecionados. Deixe seus dados e entraremos em contato assim que abrirmos novas vagas para empresas interessadas.</p>
+
+                    <div id="alertContainer"></div>
+                    
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" name="nome" class="form-input" required>
+                        <span class="error-message" id="error-nome"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                        <span class="error-message" id="error-email"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="celular">Celular</label>
+                        <input type="tel" id="celular" name="celular" class="form-input" placeholder="(00) 00000-0000" required>
+                        <span class="error-message" id="error-celular"></span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" name="cidade" class="form-input" required>
+                            <span class="error-message" id="error-cidade"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select id="estado" name="estado" class="form-input" required>
+                                <option value="">Selecione</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                            <span class="error-message" id="error-estado"></span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-hero btn-full" id="submitBtn">
+                        <span id="btnText">Enviar</span>
+                        <span id="btnLoader" style="display: none;">
+                            <svg class="spinner" width="16" height="16" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.4"/>
+                                <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor"/>
+                            </svg>
+                            Enviando...
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            // Abrir modal
+            function abrirModal() {
+                document.getElementById('contatoModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Fechar modal
+            function fecharModal() {
+                document.getElementById('contatoModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                limparFormulario();
+            }
+
+            // Limpar formulário
+            function limparFormulario() {
+                document.getElementById('contatoForm').reset();
+                document.getElementById('alertContainer').innerHTML = '';
+                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+            }
+
+            // Mostrar loading
+            function mostrarLoading(show) {
+                const btnText = document.getElementById('btnText');
+                const btnLoader = document.getElementById('btnLoader');
+                const submitBtn = document.getElementById('submitBtn');
+                
+                if (show) {
+                    btnText.style.display = 'none';
+                    btnLoader.style.display = 'flex';
+                    submitBtn.disabled = true;
+                } else {
+                    btnText.style.display = 'block';
+                    btnLoader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            }
+
+            // Mostrar alerta
+            function mostrarAlerta(message, type) {
+                const container = document.getElementById('alertContainer');
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+                container.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+            }
+
+            // Formatação de celular
+            document.getElementById('celular').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+                e.target.value = value;
+            });
+
+            // Adicionar eventos aos botões "Teste Grátis"
+            document.addEventListener('DOMContentLoaded', function() {
+                const btnsTesteGratis = document.querySelectorAll('.btn-hero');
+                btnsTesteGratis.forEach(btn => {
+                    if (btn.textContent.includes('Teste Grátis') || btn.textContent.includes('Começar Teste')) {
+                        btn.onclick = abrirModal;
+                    }
+                });
+
+                // Envio do formulário
+                document.getElementById('contatoForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    mostrarLoading(true);
+                    document.getElementById('alertContainer').innerHTML = '';
+                    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                    document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+                    
+                    const formData = new FormData(this);
+                    
+                    fetch('{{ route("contato.enviar") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        mostrarLoading(false);
+                        
+                        if (data.success) {
+                            mostrarAlerta(data.message, 'success');
+                            setTimeout(() => {
+                                fecharModal();
+                            }, 2000);
+                        } else {
+                            if (data.errors) {
+                                for (const [field, messages] of Object.entries(data.errors)) {
+                                    const errorEl = document.getElementById(`error-${field}`);
+                                    const inputEl = document.getElementById(field);
+                                    
+                                    if (errorEl && inputEl) {
+                                        errorEl.textContent = messages[0];
+                                        inputEl.classList.add('error');
+                                    }
+                                }
+                            } else {
+                                mostrarAlerta(data.message || 'Ocorreu um erro. Tente novamente.', 'error');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        mostrarLoading(false);
+                        mostrarAlerta('Ocorreu um erro inesperado. Tente novamente.', 'error');
+                    });
+                });
+
+                // Fechar modal com ESC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && document.getElementById('contatoModal').style.display === 'flex') {
+                        fecharModal();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
